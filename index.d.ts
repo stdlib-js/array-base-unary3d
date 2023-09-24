@@ -1,4 +1,4 @@
-/**
+/*
 * @license Apache-2.0
 *
 * Copyright (c) 2023 The Stdlib Authors.
@@ -16,9 +16,20 @@
 * limitations under the License.
 */
 
-'use strict';
+// TypeScript Version: 4.1
 
-// MAIN //
+/// <reference types="https://cdn.jsdelivr.net/gh/stdlib-js/types@esm/index.d.ts"/>
+
+import { Array3D } from '@stdlib/types/array';
+import { Shape3D } from '@stdlib/types/ndarray';
+
+/**
+* Unary callback.
+*
+* @param value - input value
+* @returns result
+*/
+type Unary<T, U> = ( value: T ) => U;
 
 /**
 * Applies a unary callback to elements in a three-dimensional nested input array and assigns results to elements in a three-dimensional nested output array.
@@ -27,14 +38,13 @@
 *
 * -   The function assumes that the input and output arrays have the same shape.
 *
-* @param {ArrayLikeObject<Array<Array<Collection>>>} arrays - array-like object containing one input nested array and one output nested array
-* @param {NonNegativeIntegerArray} shape - array shape
-* @param {Callback} fcn - unary callback
-* @returns {void}
+* @param arrays - array containing one input nested array and one output nested array
+* @param shape - array shape
+* @param fcn - unary callback
 *
 * @example
-* var ones3d = require( '@stdlib/array-base-ones3d' );
-* var zeros3d = require( '@stdlib/array-base-zeros3d' );
+* var ones3d = require( `@stdlib/array/base/ones3d` );
+* var zeros3d = require( `@stdlib/array/base/zeros3d` );
 *
 * function scale( x ) {
 *     return x * 10.0;
@@ -50,42 +60,9 @@
 * console.log( y );
 * // => [ [ [ 10.0, 10.0 ], [ 10.0, 10.0 ] ] ]
 */
-function unary3d( arrays, shape, fcn ) {
-	var S0;
-	var S1;
-	var S2;
-	var i0;
-	var i1;
-	var i2;
-	var x0;
-	var x1;
-	var y0;
-	var y1;
-	var x;
-	var y;
-
-	S0 = shape[ 2 ];
-	S1 = shape[ 1 ];
-	S2 = shape[ 0 ];
-	if ( S0 <= 0 || S1 <= 0 || S2 <= 0 ) {
-		return;
-	}
-	x = arrays[ 0 ];
-	y = arrays[ 1 ];
-	for ( i2 = 0; i2 < S2; i2++ ) {
-		x1 = x[ i2 ];
-		y1 = y[ i2 ];
-		for ( i1 = 0; i1 < S1; i1++ ) {
-			x0 = x1[ i1 ];
-			y0 = y1[ i1 ];
-			for ( i0 = 0; i0 < S0; i0++ ) {
-				y0[ i0 ] = fcn( x0[ i0 ] );
-			}
-		}
-	}
-}
+declare function unary3d<T = unknown, U = unknown>( arrays: [ Array3D<T>, Array3D<U> ], shape: Shape3D, fcn: Unary<T, U> ): void;
 
 
 // EXPORTS //
 
-module.exports = unary3d;
+export = unary3d;
